@@ -1,7 +1,7 @@
 Config { 
 
   -- appearance
-     font =         "xft:Bitstream Vera Sans Mono:size=8:bold:antialias=true"
+     font =         "xft:Bitstream Vera Sans Mono:size=18:bold:antialias=true"
    , bgColor =      "black"
    , fgColor =      "#646464"
    , position =     Top
@@ -11,7 +11,7 @@ Config {
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%multicpu% | %coretemp% | %memory% | %vol% | %dynnetwork% | %KBOS% | %date%"
+   , template = "%StdinReader% | %multicpu% | %coretemp% | %memory% | %vol% |  %KBOS% | %date%"
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -36,20 +36,9 @@ Config {
    --   color can be set by enclosing in <fc></fc> tags. For more details
    --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
    , commands = 
-
         -- weather monitor
         [ Run Weather "KBOS" [ "--template", "<skyCondition> | <fc=#4682B4><tempF></fc>°F"
                              ] 36000
-
-        -- network activity monitor (dynamic interface resolution)
-        , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
-                             , "--Low"      , "1000"       -- units: kB/s
-                             , "--High"     , "5000"       -- units: kB/s
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
-                             ] 10
-
         -- cpu activity monitor
         , Run MultiCpu       [ "--template" , "Cpu: <total0>%|<total1>%|<total2>%|<total3>%"
                              , "--Low"      , "50"         -- units: %
@@ -58,19 +47,16 @@ Config {
                              , "--normal"   , "darkorange"
                              , "--high"     , "darkred"
                              ] 10
-
         -- cpu core temperature monitor
-        , Run CoreTemp       [ "--template" , "Temp: <core0>°F|<core1>°F|<core2>°F|<core3>°F|<core4>°F"
+        , Run CoreTemp       [ "--template" , "Temp: <core0>°C|<core1>°C|<core2>°C|<core3>°C|<core4>°C"
                              , "--Low"      , "70"        -- units: °F
                              , "--High"     , "80"        -- units: °F
                              , "--low"      , "darkgreen"
                              , "--normal"   , "darkorange"
                              , "--high"     , "darkred"
                              ] 50
-           
 	-- volume monitor
 	, Run Com	     "bash" ["/home/clen/scripts/volume"] "vol" 10	
-               
         -- memory usage monitor
         , Run Memory         [ "--template" ,"Mem: <usedratio>%"
                              , "--Low"      , "20"        -- units: %
@@ -79,9 +65,9 @@ Config {
                              , "--normal"   , "darkorange"
                              , "--high"     , "darkred"
                              ] 10
-
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
         , Run Date           "<fc=#ABABAB>%b %d (%a) %I:%M</fc>" "date" 10
+	, Run StdinReader
         ]
    }
